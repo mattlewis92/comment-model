@@ -95,6 +95,13 @@
           return activities;
         }
 
+        function scrollToMain() {
+          $timeout(() => {
+            const main = document.querySelector('.activity-main');
+            $window.scrollTo(0, main.offsetTop - 50 - (main.clientHeight / 2));
+          });
+        }
+
         $scope.$watch(() => $location.url(), path => {
 
           this.limits = {
@@ -138,9 +145,7 @@
                 ]
               };
 
-              $timeout(() => {
-                $window.scrollTo(0, document.querySelector('.activity-main').offsetTop - 80);
-              });
+              scrollToMain();
 
               break;
 
@@ -156,9 +161,7 @@
                 parents: getActivities(2)
               };
 
-              $timeout(() => {
-                $window.scrollTo(0, document.querySelector('.activity-main').offsetTop - 80);
-              });
+              scrollToMain();
 
               break;
 

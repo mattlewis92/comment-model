@@ -21,6 +21,10 @@
         margin-top: 10px;
       }
 
+      .pointer {
+        cursor: pointer;
+      }
+
     </style>
 
     <link rel="stylesheet" href="styles.css">
@@ -33,7 +37,10 @@
         .module('app', [])
         .component('activity', {
           template: `
-            <div class="media" ng-class="{'activity-parent': $ctrl.parent, 'activity-child': $ctrl.child, 'activity-main': $ctrl.main}">
+            <div
+              class="media"
+              ng-class="{'activity-parent': $ctrl.parent, 'activity-child': $ctrl.child, 'activity-main': $ctrl.main, 'pointer': !$ctrl.main}"
+              ng-click="!$ctrl.main ? $ctrl.alert('Open the tweet in a new tab') : ''">
               <div class="media-left">
                 <a href="#">
                   <img class="media-object" ng-src="{{ $ctrl.activity.author.avatar }}">
@@ -49,8 +56,8 @@
                   {{ $ctrl.activity.interaction.content }}
                 </p>
                 <div class="activity-actions">
-                  <a href="javascript:;"><i class="fa fa-retweet"></i> Retweet</a>
-                  <a href="javascript:;"><i class="fa fa-heart"></i> Like</a>
+                  <a href="javascript:;" ng-click="$ctrl.alert('Retweet'); $event.stopPropagation()"><i class="fa fa-retweet"></i> Retweet</a>
+                  <a href="javascript:;" ng-click="$ctrl.alert('Like'); $event.stopPropagation()"><i class="fa fa-heart"></i> Like</a>
                 </div>
 
                 <div ng-show="$ctrl.main" class="spacer-top">
@@ -67,6 +74,11 @@
             parent: '<',
             child: '<',
             main: '<'
+          },
+          controller() {
+            this.alert = function(action) {
+              alert(action);
+            };
           }
         })
         .controller('AppCtrl', function($scope, $location, $window, $timeout) {

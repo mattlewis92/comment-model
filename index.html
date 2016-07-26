@@ -99,7 +99,7 @@
           $timeout(() => {
             const main = document.querySelector('.activity-main');
             $window.scrollTo(0, main.offsetTop - 50 - (main.clientHeight / 2));
-          });
+          }, 200);
         }
 
         $scope.$watch(() => $location.url(), path => {

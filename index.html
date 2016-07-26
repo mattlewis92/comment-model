@@ -23,6 +23,10 @@
         border-bottom: 1px solid #e1e8ed;
       }
 
+      .child-activities {
+        margin-left: 78px;
+      }
+
       .activities {
         border-left: solid 1px #eee;
         border-right: solid 1px #eee;
@@ -43,10 +47,6 @@
       }
       .activity-actions a {
         margin-right: 20px;
-      }
-
-      .child-activities {
-        margin-left: 78px;
       }
 
       .child-activities .child-activity {
@@ -253,69 +253,68 @@
 
       <div class="activities">
 
-        <activity activity="$ctrl.thread.parents[0]" parent="true" ng-if="$ctrl.thread.parents.length > 0"></activity>
+        <div ng-repeat="parent in $ctrl.thread.parents" ng-style="{marginLeft: ($index * 78) + 'px'}">
+          <activity
+            activity="parent"
+            parent="true">
+          </activity>
+        </div>
 
-        <div ng-class="{'child-activities': $ctrl.thread.parents.length > 0}">
+        <div ng-class="{'child-activities': $ctrl.thread.parents.length > 0}" ng-style="{marginLeft: (78 * $ctrl.thread.parents.length) + 'px'}">
 
-          <activity activity="$ctrl.thread.parents[1]" parent="true" ng-if="$ctrl.thread.parents.length > 1"></activity>
+          <div ng-if="$ctrl.thread.siblings.prev.length > 0">
 
-          <div ng-class="{'child-activities': $ctrl.thread.parents.length > 1}">
-
-            <div ng-if="$ctrl.thread.siblings.prev.length > 0">
-
-              <div class="text-center show-more" ng-show="$ctrl.limits.siblings.prev < $ctrl.thread.siblings.prev.length">
-                <a
-                  href="javascript:;"
-                  ng-click="$ctrl.limits.siblings.prev = $ctrl.limits.siblings.prev + 5">
-                  Show previous
-                </a>
-              </div>
-
-              <activity
-                ng-repeat="child in $ctrl.thread.siblings.prev | orderBy:'interaction.created_at':true | limitTo:$ctrl.limits.siblings.prev | orderBy:'interaction.created_at'"
-                activity="child"
-                child="true">
-              </activity>
-
+            <div class="text-center show-more" ng-show="$ctrl.limits.siblings.prev < $ctrl.thread.siblings.prev.length">
+              <a
+                href="javascript:;"
+                ng-click="$ctrl.limits.siblings.prev = $ctrl.limits.siblings.prev + 5">
+                Show previous
+              </a>
             </div>
 
-            <activity activity="$ctrl.thread.current" main="true"></activity>
+            <activity
+              ng-repeat="child in $ctrl.thread.siblings.prev | orderBy:'interaction.created_at':true | limitTo:$ctrl.limits.siblings.prev | orderBy:'interaction.created_at'"
+              activity="child"
+              child="true">
+            </activity>
 
-            <div class="child-activities">
+          </div>
 
-              <div class="text-center show-more" ng-show="$ctrl.limits.children < $ctrl.thread.children.length">
-                <a
-                  href="javascript:;"
-                  ng-click="$ctrl.limits.children = $ctrl.limits.children + 5">
-                  Show previous comments
-                </a>
-              </div>
+          <activity activity="$ctrl.thread.current" main="true"></activity>
 
-              <activity
-                ng-repeat="child in $ctrl.thread.children | orderBy:'interaction.created_at':true | limitTo:$ctrl.limits.children | orderBy:'interaction.created_at'"
-                activity="child"
-                child="true">
-              </activity>
+          <div class="child-activities">
 
+            <div class="text-center show-more" ng-show="$ctrl.limits.children < $ctrl.thread.children.length">
+              <a
+                href="javascript:;"
+                ng-click="$ctrl.limits.children = $ctrl.limits.children + 5">
+                Show previous comments
+              </a>
             </div>
 
-            <div ng-if="$ctrl.thread.siblings.next.length > 0">
-              <activity
-                ng-repeat="child in $ctrl.thread.siblings.next | orderBy:'interaction.created_at' | limitTo:$ctrl.limits.siblings.next"
-                activity="child" child="true">
-              </activity>
-              <div class="text-center show-more" ng-show="$ctrl.limits.siblings.next < $ctrl.thread.siblings.next.length">
-                <a
-                  href="javascript:;"
-                  ng-click="$ctrl.limits.siblings.next = $ctrl.limits.siblings.next + 5">
-                  <span ng-show="$ctrl.limits.siblings.next > 0">Show more</span>
-                  <span ng-show="$ctrl.limits.siblings.next === 0">
+            <activity
+              ng-repeat="child in $ctrl.thread.children | orderBy:'interaction.created_at':true | limitTo:$ctrl.limits.children | orderBy:'interaction.created_at'"
+              activity="child"
+              child="true">
+            </activity>
+
+          </div>
+
+          <div ng-if="$ctrl.thread.siblings.next.length > 0">
+            <activity
+              ng-repeat="child in $ctrl.thread.siblings.next | orderBy:'interaction.created_at' | limitTo:$ctrl.limits.siblings.next"
+              activity="child" child="true">
+            </activity>
+            <div class="text-center show-more" ng-show="$ctrl.limits.siblings.next < $ctrl.thread.siblings.next.length">
+              <a
+                href="javascript:;"
+                ng-click="$ctrl.limits.siblings.next = $ctrl.limits.siblings.next + 5">
+                <span ng-show="$ctrl.limits.siblings.next > 0">Show more</span>
+                <span ng-show="$ctrl.limits.siblings.next === 0">
                   <i class="fa fa-comment"></i> Show next comments
                 </span>
-                </a>
-              </div>
+              </a>
             </div>
-
           </div>
 
         </div>

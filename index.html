@@ -16,6 +16,13 @@
         margin-top: 50px;
       }
 
+      .parent {
+        padding-left: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e1e8ed;
+      }
+
       .activities {
         border-left: solid 1px #eee;
         border-right: solid 1px #eee;
@@ -25,6 +32,7 @@
         background-color: #f5f8fa;
         padding: 20px;
         border-bottom: 1px solid #e1e8ed;
+        margin-top: 0;
       }
 
       .main-activity > .media-body > p {
@@ -63,7 +71,8 @@
       }
 
       .show-more {
-        padding: 20px;
+        padding: 15px;
+        border-bottom: 1px solid #e1e8ed;
       }
 
     </style>
@@ -72,7 +81,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
 
     <script>
-      angular.module('app', []).controller('AppCtrl', function($scope, $location) {
+      angular.module('app', []).controller('AppCtrl', function($scope, $location, $window, $timeout) {
 
         this.$location = $location;
 
@@ -96,27 +105,82 @@
 
               this.thread = {
                 current: getFakeActivity(),
-                children: []
+                children: [],
+                siblings: {
+                  next: [],
+                  prev: []
+                },
+                parents: []
               };
 
               for (let i = 0; i < 20; i++) {
                 this.thread.children.push(getFakeActivity());
               }
 
+              $timeout(() => {
+                $window.scrollTo(0, 0);
+              });
+
               break;
 
             case '/2':
 
               this.thread = {
-                current: getFakeActivity()
+                current: getFakeActivity(),
+                children: [
+                  getFakeActivity(),
+                  getFakeActivity(),
+                  getFakeActivity(),
+                  getFakeActivity()
+                ],
+                siblings: {
+                  next: [
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity()
+                  ],
+                  prev: [
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity()
+                  ]
+                },
+                parents: [
+                  getFakeActivity()
+                ]
               };
+
+              $timeout(() => {
+                $window.scrollTo(0, document.querySelector('.main-activity').offsetTop - 50);
+              });
 
               break;
 
             case '/3':
 
               this.thread = {
-                current: getFakeActivity()
+                current: getFakeActivity(),
+                children: [],
+                siblings: {
+                  next: [
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity()
+                  ],
+                  prev: [
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity(),
+                    getFakeActivity()
+                  ]
+                },
+                parents: [
+                  getFakeActivity(),
+                  getFakeActivity()
+                ]
               };
 
               break;
@@ -147,19 +211,20 @@
     <div class="container content">
 
       <div class="activities">
-        <div class="media main-activity">
+
+        <div class="media parent" ng-if="$ctrl.thread.parents.length > 0">
           <div class="media-left">
             <a href="#">
-              <img class="media-object" ng-src="{{ $ctrl.thread.current.author.avatar }}" alt="">
+              <img class="media-object" ng-src="{{ $ctrl.thread.parents[0].author.avatar }}" alt="">
             </a>
           </div>
           <div class="media-body">
             <h4 class="media-heading">
-              <b>{{ $ctrl.thread.current.author.name }}</b>
-              <small class="text-muted">@{{ $ctrl.thread.current.author.username }}</small>
+              <b>{{ $ctrl.thread.parents[0].author.name }}</b>
+              <small class="text-muted">@{{ $ctrl.thread.parents[0].author.username }}</small>
             </h4>
             <p>
-              {{ $ctrl.thread.current.interaction.content }}
+              {{ $ctrl.thread.parents[0].interaction.content }}
             </p>
             <div class="activity-actions">
               <a><i class="fa fa-retweet"></i> Retweet</a>
@@ -168,21 +233,51 @@
           </div>
         </div>
 
-        <div class="child-activities">
+        <div ng-class="{'child-activities': $ctrl.thread.parents.length > 0}">
 
-          <div class="media child-activity" ng-repeat="child in $ctrl.thread.children">
+          <div ng-if="$ctrl.thread.siblings.prev.length > 0">
+
+            <div class="text-center">
+              <a href="javascript:;">Show previous</a>
+              <hr>
+            </div>
+
+            <div class="media child-activity" ng-repeat="child in $ctrl.thread.siblings.prev">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" ng-src="{{ child.author.avatar }}" alt="">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <b>{{ child.author.name }}</b>
+                  <small class="text-muted">@{{ child.author.username }}</small>
+                </h4>
+                <p>
+                  {{ child.interaction.content }}
+                </p>
+                <div class="activity-actions">
+                  <a><i class="fa fa-retweet"></i> Retweet</a>
+                  <a><i class="fa fa-heart"></i> Like</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="media main-activity">
             <div class="media-left">
               <a href="#">
-                <img class="media-object" ng-src="{{ child.author.avatar }}" alt="">
+                <img class="media-object" ng-src="{{ $ctrl.thread.current.author.avatar }}" alt="">
               </a>
             </div>
             <div class="media-body">
               <h4 class="media-heading">
-                <b>{{ child.author.name }}</b>
-                <small class="text-muted">@{{ child.author.username }}</small>
+                <b>{{ $ctrl.thread.current.author.name }}</b>
+                <small class="text-muted">@{{ $ctrl.thread.current.author.username }}</small>
               </h4>
               <p>
-                {{ child.interaction.content }}
+                {{ $ctrl.thread.current.interaction.content }}
               </p>
               <div class="activity-actions">
                 <a><i class="fa fa-retweet"></i> Retweet</a>
@@ -191,9 +286,61 @@
             </div>
           </div>
 
-          <div class="text-center show-more">
-            <a href="javascript:;">Show more</a>
+          <div class="child-activities">
+
+            <div class="media child-activity" ng-repeat="child in $ctrl.thread.children">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" ng-src="{{ child.author.avatar }}" alt="">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <b>{{ child.author.name }}</b>
+                  <small class="text-muted">@{{ child.author.username }}</small>
+                </h4>
+                <p>
+                  {{ child.interaction.content }}
+                </p>
+                <div class="activity-actions">
+                  <a><i class="fa fa-retweet"></i> Retweet</a>
+                  <a><i class="fa fa-heart"></i> Like</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center show-more">
+              <a href="javascript:;">Show more</a>
+            </div>
           </div>
+
+          <div ng-if="$ctrl.thread.siblings.next.length > 0" style="margin-top: 10px;">
+            <div class="media child-activity" ng-repeat="child in $ctrl.thread.siblings.next">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" ng-src="{{ child.author.avatar }}" alt="">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <b>{{ child.author.name }}</b>
+                  <small class="text-muted">@{{ child.author.username }}</small>
+                </h4>
+                <p>
+                  {{ child.interaction.content }}
+                </p>
+                <div class="activity-actions">
+                  <a><i class="fa fa-retweet"></i> Retweet</a>
+                  <a><i class="fa fa-heart"></i> Like</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center show-more">
+              <a href="javascript:;">Show more</a>
+            </div>
+          </div>
+
         </div>
       </div>
 

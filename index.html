@@ -133,6 +133,14 @@
           };
         }
 
+        function getActivities(count) {
+          const activities = [];
+          for (let i = 0; i < count; i++) {
+            activities.push(getFakeActivity());
+          }
+          return activities;
+        }
+
         $scope.$watch(() => $location.url(), path => {
 
           switch(path) {
@@ -140,17 +148,13 @@
 
               this.thread = {
                 current: getFakeActivity(),
-                children: [],
+                children: getActivities(20),
                 siblings: {
                   next: [],
                   prev: []
                 },
                 parents: []
               };
-
-              for (let i = 0; i < 20; i++) {
-                this.thread.children.push(getFakeActivity());
-              }
 
               $timeout(() => {
                 $window.scrollTo(0, 0);
@@ -162,25 +166,10 @@
 
               this.thread = {
                 current: getFakeActivity(),
-                children: [
-                  getFakeActivity(),
-                  getFakeActivity(),
-                  getFakeActivity(),
-                  getFakeActivity()
-                ],
+                children: getActivities(20),
                 siblings: {
-                  next: [
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity()
-                  ],
-                  prev: [
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity()
-                  ]
+                  next: getActivities(20),
+                  prev: getActivities(20)
                 },
                 parents: [
                   getFakeActivity()
@@ -199,23 +188,10 @@
                 current: getFakeActivity(),
                 children: [],
                 siblings: {
-                  next: [
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity()
-                  ],
-                  prev: [
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity(),
-                    getFakeActivity()
-                  ]
+                  next: getActivities(20),
+                  prev: getActivities(20)
                 },
-                parents: [
-                  getFakeActivity(),
-                  getFakeActivity()
-                ]
+                parents: getActivities(2)
               };
 
               break;

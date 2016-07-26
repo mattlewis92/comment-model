@@ -33,7 +33,7 @@
         .module('app', [])
         .component('activity', {
           template: `
-            <div class="media" ng-class="{parent: $ctrl.parent, 'child-activity': $ctrl.child, 'main-activity': $ctrl.main}">
+            <div class="media" ng-class="{'activity-parent': $ctrl.parent, 'activity-child': $ctrl.child, 'activity-main': $ctrl.main}">
               <div class="media-left">
                 <a href="#">
                   <img class="media-object" ng-src="{{ $ctrl.activity.author.avatar }}">
@@ -139,7 +139,7 @@
               };
 
               $timeout(() => {
-                $window.scrollTo(0, document.querySelector('.main-activity').offsetTop - 80);
+                $window.scrollTo(0, document.querySelector('.activity-main').offsetTop - 80);
               });
 
               break;
@@ -157,7 +157,7 @@
               };
 
               $timeout(() => {
-                $window.scrollTo(0, document.querySelector('.main-activity').offsetTop - 80);
+                $window.scrollTo(0, document.querySelector('.activity-main').offsetTop - 80);
               });
 
               break;
@@ -187,7 +187,7 @@
 
     <div class="container content">
 
-      <div class="activities">
+      <div class="activity-context">
 
         <div ng-repeat="parent in $ctrl.thread.parents" ng-style="{marginLeft: ($index * 78) + 'px'}">
           <activity
@@ -196,11 +196,11 @@
           </activity>
         </div>
 
-        <div ng-class="{'child-activities': $ctrl.thread.parents.length > 0}" ng-style="{marginLeft: (78 * $ctrl.thread.parents.length) + 'px'}">
+        <div ng-class="{'activity-children': $ctrl.thread.parents.length > 0}" ng-style="{marginLeft: (78 * $ctrl.thread.parents.length) + 'px'}">
 
           <div ng-if="$ctrl.thread.siblings.prev.length > 0">
 
-            <div class="text-center show-more" ng-show="$ctrl.limits.siblings.prev < $ctrl.thread.siblings.prev.length">
+            <div class="text-center activity-expander" ng-show="$ctrl.limits.siblings.prev < $ctrl.thread.siblings.prev.length">
               <a
                 href="javascript:;"
                 ng-click="$ctrl.limits.siblings.prev = $ctrl.limits.siblings.prev + 5">
@@ -218,9 +218,9 @@
 
           <activity activity="$ctrl.thread.current" main="true"></activity>
 
-          <div class="child-activities">
+          <div class="activity-children">
 
-            <div class="text-center show-more" ng-show="$ctrl.limits.children < $ctrl.thread.children.length">
+            <div class="text-center activity-expander" ng-show="$ctrl.limits.children < $ctrl.thread.children.length">
               <a
                 href="javascript:;"
                 ng-click="$ctrl.limits.children = $ctrl.limits.children + 5">
@@ -241,7 +241,7 @@
               ng-repeat="child in $ctrl.thread.siblings.next | orderBy:'interaction.created_at' | limitTo:$ctrl.limits.siblings.next"
               activity="child" child="true">
             </activity>
-            <div class="text-center show-more" ng-show="$ctrl.limits.siblings.next < $ctrl.thread.siblings.next.length">
+            <div class="text-center activity-expander" ng-show="$ctrl.limits.siblings.next < $ctrl.thread.siblings.next.length">
               <a
                 href="javascript:;"
                 ng-click="$ctrl.limits.siblings.next = $ctrl.limits.siblings.next + 5">

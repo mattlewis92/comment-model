@@ -1,27 +1,27 @@
-.activities {
+.activity-context {
 
   border-left: solid 1px #eee;
   border-right: solid 1px #eee;
 
-  .parent {
+  .activity-parent {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #e1e8ed;
   }
 
-  .child-activities {
+  .activity-children {
     margin-left: 78px;
   }
 
-  .main-activity {
+  .activity-main {
     background-color: #f5f8fa;
     padding: 20px;
     border-bottom: 1px solid #e1e8ed;
     margin-top: 0;
   }
 
-  .main-activity > .media-body > p {
+  .activity-main > .media-body > p {
     font-size: 26px;
     line-height: 32px;
     font-weight: 300;
@@ -32,31 +32,31 @@
     margin-right: 20px;
   }
 
-  .child-activities .child-activity {
+  .activity-children .activity-child {
     border-bottom: 1px solid #e1e8ed;
     padding-bottom: 10px;
   }
 
-  .child-activity {
+  .activity-child {
     padding-top: 10px;
   }
 
-  .child-activity .activity-actions a {
+  .activity-child .activity-actions a {
     font-size: 12px;
   }
 
-  .child-activity .media-heading {
+  .activity-child .media-heading {
     font-size: 14px;
   }
 
-  .child-activity p {
+  .activity-child p {
     margin: 0;
   }
 
-  .child-activity p,
-  .child-activity .media-heading,
-  .parent .media-heading,
-  .parent .media-body > p {
+  .activity-child p,
+  .activity-child .media-heading,
+  .parent-activity .media-heading,
+  .parent-activity .media-body > p {
     margin-right: 20px;
   }
 
@@ -65,7 +65,7 @@
     height: 48px;
   }
 
-  .show-more {
+  .activity-expander {
     padding: 15px;
     border-bottom: 1px solid #e1e8ed;
   }

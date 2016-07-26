@@ -1,0 +1,58 @@
+.activities {
+  border-left: solid 1px #eee;
+  border-right: solid 1px #eee;
+}
+.activities .parent {
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e8ed;
+}
+.activities .child-activities {
+  margin-left: 78px;
+}
+.activities .main-activity {
+  background-color: #f5f8fa;
+  padding: 20px;
+  border-bottom: 1px solid #e1e8ed;
+  margin-top: 0;
+}
+.activities .main-activity > .media-body > p {
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+.activities .activity-actions a {
+  margin-right: 20px;
+}
+.activities .child-activities .child-activity {
+  border-bottom: 1px solid #e1e8ed;
+  padding-bottom: 10px;
+}
+.activities .child-activity {
+  padding-top: 10px;
+}
+.activities .child-activity .activity-actions a {
+  font-size: 12px;
+}
+.activities .child-activity .media-heading {
+  font-size: 14px;
+}
+.activities .child-activity p {
+  margin: 0;
+}
+.activities .child-activity p,
+.activities .child-activity .media-heading,
+.activities .parent .media-heading,
+.activities .parent .media-body > p {
+  margin-right: 20px;
+}
+.activities .media-left img.media-object {
+  width: 48px;
+  height: 48px;
+}
+.activities .show-more {
+  padding: 15px;
+  border-bottom: 1px solid #e1e8ed;
+}

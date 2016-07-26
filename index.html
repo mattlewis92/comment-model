@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <style type="text/css">
+      .content {
+        width: 800px;
+        margin-top: 50px;
+      }
+
+      .activities {
+        border-left: solid 1px #eee;
+        border-right: solid 1px #eee;
+      }
+
+      .main-activity {
+        background-color: #f5f8fa;
+        padding: 20px;
+        border-bottom: 1px solid #e1e8ed;
+      }
+
+      .main-activity > .media-body > p {
+        font-size: 26px;
+        line-height: 32px;
+        font-weight: 300;
+        letter-spacing: 0.01em;
+      }
+      .activity-actions a {
+        margin-right: 20px;
+      }
+
+      .child-activities {
+        margin-top: 15px;
+        margin-left: 78px;
+      }
+
+      .child-activities .child-activity {
+        border-bottom: 1px solid #e1e8ed;
+        padding-bottom: 10px;
+      }
+
+      .child-activity .activity-actions a {
+        font-size: 12px;
+      }
+      .child-activity .media-heading {
+        font-size: 14px;
+      }
+      .child-activity p {
+        margin: 0;
+        margin-right: 20px;
+      }
+      .media-left img.media-object {
+        width: 48px;
+        height: 48px;
+      }
+
+      .show-more {
+        padding: 20px;
+      }
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+
+    <script>
+      angular.module('app', []).controller('AppCtrl', function($scope, $location) {
+
+        this.$location = $location;
+
+        function getFakeActivity() {
+          return {
+            author: {
+              name: faker.name.findName(),
+              username: faker.internet.userName(),
+              avatar: faker.image.avatar()
+            },
+            interaction: {
+              content: faker.lorem.sentences()
+            }
+          };
+        }
+
+        $scope.$watch(() => $location.url(), path => {
+
+          switch(path) {
+            case '/1':
+
+              this.thread = {
+                current: getFakeActivity(),
+                children: []
+              };
+
+              for (let i = 0; i < 20; i++) {
+                this.thread.children.push(getFakeActivity());
+              }
+
+              break;
+
+            case '/2':
+
+              this.thread = {
+                current: getFakeActivity()
+              };
+
+              break;
+
+            case '/3':
+
+              this.thread = {
+                current: getFakeActivity()
+              };
+
+              break;
+
+            default:
+              $location.url('/1');
+          }
+
+        });
+
+      });
+    </script>
+
+  </head>
+  <body ng-app="app" ng-controller="AppCtrl as $ctrl">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Comment scaffolding</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ng-class="{active: $ctrl.$location.url() == '/1'}"><a href="#1">Top level parent</a></li>
+        <li ng-class="{active: $ctrl.$location.url() == '/2'}"><a href="#2">2nd level child</a></li>
+        <li ng-class="{active: $ctrl.$location.url() == '/3'}"><a href="#3">3rd level child</a></li>
+      </ul>
+    </nav>
+
+    <div class="container content">
+
+      <div class="activities">
+        <div class="media main-activity">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" ng-src="{{ $ctrl.thread.current.author.avatar }}" alt="">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">
+              <b>{{ $ctrl.thread.current.author.name }}</b>
+              <small class="text-muted">@{{ $ctrl.thread.current.author.username }}</small>
+            </h4>
+            <p>
+              {{ $ctrl.thread.current.interaction.content }}
+            </p>
+            <div class="activity-actions">
+              <a><i class="fa fa-retweet"></i> Retweet</a>
+              <a><i class="fa fa-heart"></i> Like</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="child-activities">
+
+          <div class="media child-activity" ng-repeat="child in $ctrl.thread.children">
+            <div class="media-left">
+              <a href="#">
+                <img class="media-object" ng-src="{{ child.author.avatar }}" alt="">
+              </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <b>{{ child.author.name }}</b>
+                <small class="text-muted">@{{ child.author.username }}</small>
+              </h4>
+              <p>
+                {{ child.interaction.content }}
+              </p>
+              <div class="activity-actions">
+                <a><i class="fa fa-retweet"></i> Retweet</a>
+                <a><i class="fa fa-heart"></i> Like</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center show-more">
+            <a href="javascript:;">Show more</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

@@ -1,13 +1,12 @@
 .activity-context {
 
-  border-left: solid 1px #eee;
-  border-right: solid 1px #eee;
+  @border-color: #e1e8ed;
 
   .activity-parent {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid @border-color;
   }
 
   .activity-children {
@@ -17,7 +16,7 @@
   .activity-main {
     background-color: #f5f8fa;
     padding: 20px;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid @border-color;
     margin-top: 0;
   }
 
@@ -33,7 +32,7 @@
   }
 
   .activity-children .activity-child {
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid @border-color;
     padding-bottom: 10px;
   }
 
@@ -67,7 +66,7 @@
 
   .activity-expander {
     padding: 15px;
-    border-bottom: 1px solid #e1e8ed;
+    border-bottom: 1px solid @border-color;
   }
 
 }

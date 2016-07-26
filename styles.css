@@ -44,8 +44,8 @@
 }
 .activity-context .activity-child p,
 .activity-context .activity-child .media-heading,
-.activity-context .parent-activity .media-heading,
-.activity-context .parent-activity .media-body > p {
+.activity-context .activity-parent .media-heading,
+.activity-context .activity-parent .media-body > p {
   margin-right: 20px;
 }
 .activity-context .media-left img.media-object {

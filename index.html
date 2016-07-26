@@ -154,7 +154,7 @@
           this.limits = {
             children: 5,
             siblings: {
-              next: 5,
+              next: 0,
               prev: 5
             }
           };
@@ -289,7 +289,8 @@
               <a
                 href="javascript:;"
                 ng-click="$ctrl.limits.siblings.next = $ctrl.limits.siblings.next + 5">
-                Show more
+                <span ng-show="$ctrl.limits.siblings.next > 0">Show more</span>
+                <span ng-show="$ctrl.limits.siblings.next === 0"><i class="fa fa-comment"></i> Show more replies</span>
               </a>
             </div>
           </div>

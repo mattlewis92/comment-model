@@ -265,19 +265,20 @@
 
           <div class="child-activities">
 
-            <activity
-              ng-repeat="child in $ctrl.thread.children | orderBy:'interaction.created_at' | limitTo:$ctrl.limits.children"
-              activity="child"
-              child="true">
-            </activity>
-
             <div class="text-center show-more" ng-show="$ctrl.limits.children < $ctrl.thread.children.length">
               <a
                 href="javascript:;"
                 ng-click="$ctrl.limits.children = $ctrl.limits.children + 5">
-                Show more
+                Show previous comments
               </a>
             </div>
+
+            <activity
+              ng-repeat="child in $ctrl.thread.children | orderBy:'interaction.created_at':true | limitTo:$ctrl.limits.children | orderBy:'interaction.created_at'"
+              activity="child"
+              child="true">
+            </activity>
+
           </div>
 
           <div ng-if="$ctrl.thread.siblings.next.length > 0">
@@ -290,7 +291,9 @@
                 href="javascript:;"
                 ng-click="$ctrl.limits.siblings.next = $ctrl.limits.siblings.next + 5">
                 <span ng-show="$ctrl.limits.siblings.next > 0">Show more</span>
-                <span ng-show="$ctrl.limits.siblings.next === 0"><i class="fa fa-comment"></i> Show more replies</span>
+                <span ng-show="$ctrl.limits.siblings.next === 0">
+                  <i class="fa fa-comment"></i> Show next comments
+                </span>
               </a>
             </div>
           </div>

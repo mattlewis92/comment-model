@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap 101 Template</title>
+    <title>New comment model</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -66,6 +66,11 @@
       }
       .child-activity p {
         margin: 0;
+      }
+      .child-activity p,
+      .child-activity .media-heading,
+      .parent .media-heading,
+      .parent .media-body > p {
         margin-right: 20px;
       }
       .media-left img.media-object {
@@ -98,6 +103,7 @@
                 <h4 class="media-heading">
                   <b>{{ $ctrl.activity.author.name }}</b>
                   <small class="text-muted">@{{ $ctrl.activity.author.username }}</small>
+                  <small class="text-muted pull-right">{{ $ctrl.activity.interaction.created_at | date:'MMM d yyyy, HH:mm' }}</small>
                 </h4>
                 <p>
                   {{ $ctrl.activity.interaction.content }}
@@ -128,6 +134,7 @@
               avatar: faker.image.avatar()
             },
             interaction: {
+              created_at: faker.date.past(),
               content: faker.lorem.sentences()
             }
           };
